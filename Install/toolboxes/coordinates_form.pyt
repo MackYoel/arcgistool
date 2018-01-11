@@ -64,11 +64,13 @@ class VerificarCoordenadas(object):
 
     def execute(self, parameters, messages):
         """The source code of the tool."""
-        layer = None
-        coodinates = utils.get_coordinates(parameters[0].valueAsText)
-        print "las coordenadas son", coodinates
+        layer = utils.get_current_layer()
+        print "listop"
+        
+        coordinates = utils.get_coordinates(parameters[0].valueAsText)
+        print "las coordenadas son", coordinates
 
-        polygon = utils.exists_superposition(layer, coodinates)
+        polygon = utils.exists_superposition(layer, coordinates)
         if polygon:
             message = utils.get_polygon_info(polygon)
         else:
