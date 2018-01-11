@@ -1,4 +1,5 @@
 import arcpy
+import pythonaddins
 
 from os import sys, path
 sys.path.append(path.dirname(path.abspath(__file__)))
@@ -63,6 +64,15 @@ class VerificarCoordenadas(object):
 
     def execute(self, parameters, messages):
         """The source code of the tool."""
+        layer = None
         coodinates = utils.get_coordinates(parameters[0].valueAsText)
         print "las coordenadas son", coodinates
-        return
+
+        polygon = utils.exists_superposition(layer, coodinates)
+        if polygon:
+            message = utils.get_polygon_info(polygon)
+        else:
+            message = 'No existe superposición'
+
+        pythonaddins.MessageBox(message, 'RESULTADO', 0)
+        return polygon
