@@ -64,22 +64,17 @@ class VerificarCoordenadas(object):
 
     def execute(self, parameters, messages):
         """The source code of the tool."""
-        layer = utils.get_current_layer()
-        print "listo"
-
         coordinates = utils.get_coordinates(parameters[0].valueAsText)
-        print "las coordenadas son", coordinates
+        utils.create_layer(settings.NEW_LAYER_NAME)
+        utils.draw_polygon(settings.NEW_LAYER_NAME, coordinates)
+        
+        # current_layer = utils.get_current_layer()
+        # polygon = utils.exists_superposition(current_layer, settings.NEW_LAYER_NAME)
 
-        utils.get_new_layer()
-         
-        if utils.exists_superposition(layer, new_layer):
-            message = utils.get_polygon_info(polygon)
-        else:
-            message = 'No existe superposición'
+        # if polygon:
+        #     message = utils.get_polygon_info(polygon)
+        # else:
+        #     message = 'NO EXISTE SUPERPOSICION'
 
-        pythonaddins.MessageBox(message, 'RESULTADO', 0)
+        # pythonaddins.MessageBox(message, 'RESULTADO', 0)
         return polygon
-
-    def get_coord()
-        coordinates = utils.get_coordinates(parameters[0].valueAsText)
-        return coordinates
