@@ -3,7 +3,6 @@ import pythonaddins
 
 from os import sys, path
 sys.path.append(path.dirname(path.abspath(__file__)))
-sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 import settings
 import utils
@@ -64,17 +63,11 @@ class VerificarCoordenadas(object):
 
     def execute(self, parameters, messages):
         """The source code of the tool."""
+        layer, data_frame = utils.get_layer_by_name(settings.LAYER_NAME)
+
+        if not layer:
+            message = 'NO SE HA ENCONTRADO LA CAPA "%s"' % settings.LAYER_NAME
+            return pythonaddins.MessageBox(message, 'RESULTADO', 0)
+
         coordinates = utils.get_coordinates(parameters[0].valueAsText)
-        utils.create_layer(settings.NEW_LAYER_NAME)
-        utils.draw_polygon(settings.NEW_LAYER_NAME, coordinates)
-        
-        # current_layer = utils.get_current_layer()
-        # polygon = utils.exists_superposition(current_layer, settings.NEW_LAYER_NAME)
-
-        # if polygon:
-        #     message = utils.get_polygon_info(polygon)
-        # else:
-        #     message = 'NO EXISTE SUPERPOSICION'
-
-        # pythonaddins.MessageBox(message, 'RESULTADO', 0)
-        return polygon
+        utils.draw_polygon(coordinates, settings.LAYER_NAME, layer, data_frame)

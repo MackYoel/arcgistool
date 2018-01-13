@@ -1,8 +1,9 @@
 import os
 
-TOOL_BOX_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'toolboxes', 'coordinates_form.pyt')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-NEW_LAYER_NAME = 'newPolygonName'
+TOOL_BOX_FILE_PATH = os.path.join(BASE_DIR, 'coordinates_form.pyt')
 
 TOOL_BOX_NAME = 'VerificarCoordenadas'
 
+LAYER_NAME = 'PARCELA_A_BENEFICIAR'
