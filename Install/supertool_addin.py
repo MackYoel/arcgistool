@@ -9,7 +9,7 @@ import utils
 
 
 class CheckSuperposition(object):
-    """Implementation for supertool_addin.button3 (Button)"""
+    """Implementation for supertool_addin.button4 (Button)"""
 
     def __init__(self):
         self.enabled = True
@@ -33,7 +33,7 @@ class DrawPolygon(object):
 
 
 class RemovePolygon(object):
-    """Implementation for supertool_addin.button_2 (Button)"""
+    """Implementation for supertool_addin.button3 (Button)"""
 
     def __init__(self):
         self.enabled = True
@@ -45,3 +45,16 @@ class RemovePolygon(object):
             arcpy.DeleteRows_management(settings.LAYER_NAME)
             message = 'LA CAPA "%s" HA SIDO LIMPIADA' % settings.LAYER_NAME
             return pythonaddins.MessageBox(message, 'RESULTADO', 0)
+
+
+class ShowNewPolygon(object):
+    """Implementation for supertool_addin.button2 (Button)"""
+
+    def __init__(self):
+        self.enabled = True
+        self.checked = False
+
+    def onClick(self):
+        layer, data_frame = utils.get_layer_by_name(settings.LAYER_NAME)
+        if layer:
+            utils.zoom_to_layer(layer, data_frame)
