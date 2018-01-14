@@ -69,5 +69,6 @@ class VerificarCoordenadas(object):
             message = 'NO SE HA ENCONTRADO LA CAPA "%s"' % settings.LAYER_NAME
             return pythonaddins.MessageBox(message, 'RESULTADO', 0)
 
+        arcpy.DeleteRows_management(layer.name)
         coordinates = utils.get_coordinates(parameters[0].valueAsText)
         utils.draw_polygon(coordinates, layer, data_frame)
