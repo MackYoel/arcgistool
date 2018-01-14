@@ -67,3 +67,16 @@ def remove_layer_if_exists(layer_name):
     intersected_layer, _ = get_layer_by_name(layer_name)
     if intersected_layer:
         arcpy.DeleteRows_management(intersected_layer.name)
+
+
+def hide_or_show_layers(layers_list_names, visible=True):
+    doc = arcpy.mapping.MapDocument("Current")
+    all_layers = arcpy.mapping.ListLayers(doc)
+
+    for layer in all_layers:
+        if layer.name in layers_list_names:
+            layer.visible = visible
+
+    if all_layers:
+        arcpy.RefreshActiveView()
+        arcpy.RefreshTOC()

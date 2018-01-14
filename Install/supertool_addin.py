@@ -29,7 +29,12 @@ class CheckSuperposition(object):
             intersected_layer, _ = utils.get_layer_by_name(settings.INTERSECTED_LAYER_NAME)
 
             if utils.exists_superposition(intersected_layer):
+                utils.hide_or_show_layers(
+                    [settings.LAYER_NAME, settings.BASE_LAYER],
+                    visible=False)
+
                 message = 'EXISTE SUPERPOSICION PARCIAL'
+
             else:
                 message = 'NO EXISTE SUPERPOSICION'
 
@@ -66,6 +71,10 @@ class RemovePolygon(object):
                 arcpy.mapping.RemoveLayer(data_frame, intersected_layer)
 
             message = 'LA CAPA "%s" HA SIDO LIMPIADA' % settings.LAYER_NAME
+            utils.hide_or_show_layers(
+                [settings.LAYER_NAME, settings.BASE_LAYER],
+                visible=True)
+
             return pythonaddins.MessageBox(message, 'RESULTADO', 0)
 
 
