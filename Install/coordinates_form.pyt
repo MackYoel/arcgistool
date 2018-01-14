@@ -70,4 +70,4 @@ class VerificarCoordenadas(object):
             return pythonaddins.MessageBox(message, 'RESULTADO', 0)
 
         coordinates = utils.get_coordinates(parameters[0].valueAsText)
-        utils.draw_polygon(coordinates, settings.LAYER_NAME, layer, data_frame)
+        utils.draw_polygon(coordinates, layer, data_frame)

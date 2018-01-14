@@ -3,9 +3,10 @@ import arcpy
 arcpy.env.overwriteOutput = True
 
 
-def exists_superposition(layer, coordinates):
-    import random
-    return random.choice([True, None])
+def exists_superposition(intersected_layer):
+    result = arcpy.GetCount_management(intersected_layer.name)
+    rows_number = int(result.getOutput(0))
+    return rows_number != 0
 
 
 def get_polygon_info(polygon):
@@ -18,13 +19,13 @@ def get_polygon_info(polygon):
     return message
 
 
-def draw_polygon(coordinates, layer_name, layer, data_frame):
+def draw_polygon(coordinates, layer, data_frame):
 
-    arcpy.AddField_management(layer_name, "PolyID", "SHORT")
-    arcpy.AddField_management(layer_name, "Name", "TEXT", "", "", 16)
+    arcpy.AddField_management(layer.name, "PolyID", "SHORT")
+    arcpy.AddField_management(layer.name, "Name", "TEXT", "", "", 16)
 
     polygon = arcpy.Polygon(coordinates)
-    edition = arcpy.da.InsertCursor(layer_name, ['Shape@', 'PolyID', 'Name'])
+    edition = arcpy.da.InsertCursor(layer.name, ['Shape@', 'PolyID', 'Name'])
     edition.insertRow([polygon, 1, 'Square Polygon'])
 
     zoom_to_layer(layer, data_frame)
@@ -60,3 +61,9 @@ def get_coordinates(parameters):
 
     array.add(array[0])
     return array
+
+
+def remove_layer_if_exists(layer_name):
+    intersected_layer, _ = get_layer_by_name(layer_name)
+    if intersected_layer:
+        arcpy.DeleteRows_management(intersected_layer.name)

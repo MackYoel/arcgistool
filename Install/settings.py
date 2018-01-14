@@ -7,3 +7,7 @@ TOOL_BOX_FILE_PATH = os.path.join(BASE_DIR, 'coordinates_form.pyt')
 TOOL_BOX_NAME = 'VerificarCoordenadas'
 
 LAYER_NAME = 'PARCELA_A_BENEFICIAR'
+
+INTERSECTED_LAYER_NAME = 'PARCELA_INTERSECTADA'
+
+BASE_LAYER = 'Poblado de Lluta'

@@ -16,7 +16,24 @@ class CheckSuperposition(object):
         self.checked = False
 
     def onClick(self):
-        pass
+        utils.remove_layer_if_exists(settings.INTERSECTED_LAYER_NAME)
+
+        layer_1, _ = utils.get_layer_by_name(settings.BASE_LAYER)
+        layer_2, _ = utils.get_layer_by_name(settings.LAYER_NAME)
+
+        if layer_1 and layer_2:
+            arcpy.Intersect_analysis(
+                [layer_1.name, layer_2.name],
+                settings.INTERSECTED_LAYER_NAME, 'ALL', '', '')
+
+            intersected_layer, _ = utils.get_layer_by_name(settings.INTERSECTED_LAYER_NAME)
+
+            if utils.exists_superposition(intersected_layer):
+                message = 'EXISTE SUPERPOSICION PARCIAL'
+            else:
+                message = 'NO EXISTE SUPERPOSICION'
+
+            return pythonaddins.MessageBox(message, 'RESULTADO', 0)
 
 
 class DrawPolygon(object):
@@ -43,6 +60,11 @@ class RemovePolygon(object):
         layer, data_frame = utils.get_layer_by_name(settings.LAYER_NAME)
         if layer:
             arcpy.DeleteRows_management(settings.LAYER_NAME)
+
+            intersected_layer, data_frame = utils.get_layer_by_name(settings.INTERSECTED_LAYER_NAME)
+            if intersected_layer:
+                arcpy.mapping.RemoveLayer(data_frame, intersected_layer)
+
             message = 'LA CAPA "%s" HA SIDO LIMPIADA' % settings.LAYER_NAME
             return pythonaddins.MessageBox(message, 'RESULTADO', 0)
 
